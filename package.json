@@ -1,6 +1,6 @@
 {
   "name": "yeps-virtual-host",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "YEPS Virtual Host",
   "main": "index.js",
   "scripts": {
@@ -63,7 +63,6 @@
     "sinon": "^1.17.7"
   },
   "dependencies": {
-    "path-to-regexp": "^1.7.0",
     "yeps": "^1.0.0",
     "yeps-error": "^1.2.0",
     "yeps-router": "^1.0.0"
