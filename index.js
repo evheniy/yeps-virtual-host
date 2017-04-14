@@ -52,7 +52,7 @@ module.exports = class {
             });
     }
 
-    catch({ domain = '*', protocol = '*' } = {}) {
+    catch({ domain = /.*/, protocol = '*' } = {}) {
         const domains = this.domains;
         const that = this;
 
@@ -62,7 +62,7 @@ module.exports = class {
 
                     const requestProtocol = ctx.req.connection.encrypted ? 'https' : 'http';
                     debug('requestProtocol: %s', requestProtocol);
-                    const hostname = ctx.req.headers.host || '*';
+                    const hostname = ctx.req.headers.host || '';
                     debug('hostname: %s', hostname);
                     const regexp = getRegexp(domain);
                     debug('regexp: %s', regexp);

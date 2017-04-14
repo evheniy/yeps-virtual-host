@@ -214,7 +214,7 @@ describe('YEPS cookies parser', async () => {
         expect(isTestFinished2).is.true;
     });
 
-    it('should test regexp domain', async () => {
+    it('should test regexp string  domain', async () => {
         let isTestFinished1 = false;
         let isTestFinished2 = false;
 
@@ -231,6 +231,60 @@ describe('YEPS cookies parser', async () => {
         await chai.request(http.createServer(app.resolve()))
             .get('/')
             .set('Host', 'api.yeps.info')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                isTestFinished2 = true;
+            });
+
+        expect(isTestFinished1).is.true;
+        expect(isTestFinished2).is.true;
+    });
+
+    it('should test regexp domain', async () => {
+        let isTestFinished1 = false;
+        let isTestFinished2 = false;
+
+        const vhost = new VirtualHost();
+
+        vhost.http(/yeps.info/).then(async ctx => {
+            isTestFinished1 = true;
+            ctx.res.statusCode = 200;
+            ctx.res.end('');
+        });
+
+        app.then(vhost.resolve());
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .set('Host', 'yeps.info')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                isTestFinished2 = true;
+            });
+
+        expect(isTestFinished1).is.true;
+        expect(isTestFinished2).is.true;
+    });
+
+    it('should test empty catch', async () => {
+        let isTestFinished1 = false;
+        let isTestFinished2 = false;
+
+        const vhost = new VirtualHost();
+
+        vhost.catch().then(async ctx => {
+            isTestFinished1 = true;
+            ctx.res.statusCode = 200;
+            ctx.res.end('');
+        });
+
+        app.then(vhost.resolve());
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .set('Host', '')
             .send()
             .then(res => {
                 expect(res).to.have.status(200);
